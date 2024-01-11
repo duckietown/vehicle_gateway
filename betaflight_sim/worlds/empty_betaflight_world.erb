@@ -250,8 +250,8 @@
         <plugin name="BetaFlightPlugin"
           filename="BetaflightPlugin">
           <!-- Port settings -->
-          <fdm_addr>172.17.0.3</fdm_addr>
-          <listen_addr>172.17.0.1</listen_addr>
+          <fdm_addr><%= ENV['FDM_ADDR'] %></fdm_addr>
+          <listen_addr><%= ENV['LISTEN_ADDR'] %></listen_addr>
 
           <fdm_port_in>9002</fdm_port_in>
           <connectionTimeoutMaxCount>5</connectionTimeoutMaxCount>
