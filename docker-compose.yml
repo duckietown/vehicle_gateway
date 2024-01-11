@@ -15,11 +15,15 @@ services:
     environment:
       - DISPLAY=${DISPLAY}
       - QT_X11_NO_MITSHM=1
+      - LISTEN_ADDR=${LISTEN_ADDR}
+      - FDM_ADDR=${FDM_ADDR}
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - /var/run/avahi-daemon/socket:/var/run/avahi-daemon/socket:rw
       - ./betaflight_sim/models/iris_with_standoffs/model.sdf:/home/vehicle_gateway/src/vehicle_gateway/betaflight_sim/models/iris_with_standoffs/model.sdf:ro
-      - ./betaflight_sim/worlds/empty_betaflight_world.sdf:/home/vehicle_gateway/src/vehicle_gateway/betaflight_sim/worlds/empty_betaflight_world.sdf:ro
+      - ./betaflight_sim/worlds/empty_betaflight_world.erb:/data/config/empty_betaflight_world.erb:ro
+    command: >
+      /bin/bash -c "erb /data/config/empty_betaflight_world.erb > /home/vehicle_gateway/src/vehicle_gateway/betaflight_sim/worlds/empty_betaflight_world.sdf && gz sim -r -v 4 /home/vehicle_gateway/src/vehicle_gateway/betaflight_sim/worlds/empty_betaflight_world.sdf"
 
   # This is a special container running ROS 1 + ROS 2 simultaneously. It is used to bridge the two frameworks.
   ros1-bridge:
