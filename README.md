@@ -8,7 +8,7 @@ For Duckietown users this means launching this container and successively starti
 
 - Set the `ROS_MASTER_URI` and `ROS_IP` environment variables on the host machine (replace `your_virtual_duckiedrone_name`):
   
-      export ROS_MASTER_URI=[your_virtual_duckiedrone_name].local:11311
+      export VEH=[your_virtual_duckiedrone_name]
       export ROS_IP=$(hostname).local
 
   Once set on the host, these variables will automatically be picked up by docker compose and forwarded to the `ros1-ros2 bridge` container.  
