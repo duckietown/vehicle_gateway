@@ -11,7 +11,7 @@ For Duckietown users this means launching this container and successively starti
       export VEH=[your_virtual_duckiedrone_name]
       export ROS_IP=$(hostname).local
 
-  Once set on the host, these variables will automatically be picked up by docker compose and forwarded to the `ros1-ros2 bridge` container.  
+  Once set on the host, these variables will automatically be picked up by docker compose and forwarded to the `ros1-ros2 bridge` container.
 - Start the container with 
 
       docker compose up
