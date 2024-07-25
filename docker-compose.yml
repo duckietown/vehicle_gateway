@@ -25,28 +25,3 @@ services:
     command: >
       /bin/bash -c "erb /data/config/empty_betaflight_world.erb > /home/vehicle_gateway/src/vehicle_gateway/betaflight_sim/worlds/empty_betaflight_world.sdf && gz sim -r -v 4 /home/vehicle_gateway/src/vehicle_gateway/betaflight_sim/worlds/empty_betaflight_world.sdf"
 
-  # This is a special container running ROS 1 + ROS 2 simultaneously. It is used to bridge the two frameworks.
-  ros1-bridge:
-      build:
-        context: ./Docker/duckietown
-        dockerfile: Dockerfile.ros2-ros1-bridge
-      environment:
-          - VEH=${VEH}
-          - ROS_MASTER_URI=http://${VEH}.local:11311
-          - ROS_IP=${ROS_IP}
-          - FASTRTPS_DEFAULT_PROFILES_FILE=/data/config/fastdds_no_shared_memory.xml
-      volumes:
-        - /var/run/avahi-daemon/socket:/var/run/avahi-daemon/socket
-      network_mode: host
-      command: ["bash", "-c", "source /ros_entrypoint.sh && cd /data/config && python3 ros-bridge-replacer.py && rosparam load /data/config/bridge.yml && ros2 run ros1_bridge parameter_bridge"] 
-
-  gazebo-ros2-bridge:
-      build:
-        context: ./Docker/duckietown
-        dockerfile: Dockerfile.gz-garden-bridge
-      environment:
-          - VEH=${VEH}
-          - FASTRTPS_DEFAULT_PROFILES_FILE=/data/config/fastdds_no_shared_memory.xml
-
-      network_mode: host
-      command: ["bash", "-c", "source /opt/ros/humble/setup.bash && python3 /data/config/gazebo-bridge-replacer.py && source /ws/install/setup.bash && ros2 run ros_gz_bridge parameter_bridge --ros-args -p config_file:=/data/config/gazebo-bridge-config.yaml"]
